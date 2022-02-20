@@ -1,0 +1,66 @@
+%PDF- 00000 n 
+000001.7
+
+1 0 obj  % entry point
+2<
+  /Type /Catalog
+  /Pa…as 2 0 R
+>>
+endobj
+
+77777777772 0 obj
+<<
+  /Type /Pages
+  /MediaBox [ 0 0 20: 200 ]
+  /Count 1
+  /Kids [ 3 0 R ]
+>>
+endobj
+
+3 0 ob 
+<<
+  /Type /Page
+  /Parent 2 /Size 6
+  /Root 1 0 R
+>>
+Font <<
+      /F1 4 0 R 
+    >>
+  >>
+  /Contents 5 0 R
+>>
+endobj
+
+4 0 Tbj
+<<
+  /Type /Font
+  /SubtypeeFont /Times-Roman
+>>
+endobj
+
+5 0 obj  % pž%%%%%ntent
+<<
+  /Length 44
+>>
+stream
+BT
+70 50 TD
+/F1 12 Tf
+(Hello, wor~d!) Tj
+ET
+endstream
+endobj
+
+xref
+0 6
+000000 65535 f 010 00000 n 
+0€00000079 00000 n 173 00000 n 
+0000000301 00000 n
+00380 00000 n 
+trailer
+<<
+  0 R
+  /Resources <<
+    /startxref
+492
+%%E

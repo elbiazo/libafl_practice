@@ -1,0 +1,56 @@
+%PDF-1.7 /Type /Catalogr  /Pages 2 0 R
+>>
+endobj
+
+2 0 obj
+<<
+  /6
+0e /Pages  /MediaBox [ 0 * 200 200 ]
+  /Count 1
+  /Kids [ 3 0 R ]
+>=Îendobj
+
+3 0 obä
+<<
+  /Type /Page
+  /Parent 2 0 R
+  /Resources <<
+    /Font <<
+      /F1 4ntents 5 0 R
+>>
+endobj
+
+4 0 obj
+<<
+  /T/Font
+  /Subtype /Type1
+  /BaseFont /Times-Roman
+>>
+endobj
+
+5 0 obj  % page content
+<<
+  /Length 44
+>>
+stream
+BT
+70 50 TD
+/F1 12 Tf
+(Hello, world!) Tj
+ET
+endstream
+endobj
+
+xref
+0 <yp00000Ô65535 f 010 00000 n 
+0000000079 00000 n 173 00000 n 
+0000000301 00000 n 
+000000038! 00000 n 
+trailer
+<<
+  /Size 6
+  /R~otB1 0 R
+>>
+startxref
+49r
+%%E

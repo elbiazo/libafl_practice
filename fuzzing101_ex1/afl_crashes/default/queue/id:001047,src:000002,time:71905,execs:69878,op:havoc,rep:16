@@ -1,0 +1,63 @@
+ %PDF-1.7
+
+1 0 obj  % entry point
+<<
+  /Type /Catalog
+  /Pages 2 0 R
+>>
+endobj
+
+2 0 obj
+<<
+  /Type /Pages
+  /MediaBox [ 0 0 200 200 ]
+  /Count 1
+  /Kids [ 3 0 R ]
+>>Pattern
+
+3 0 obj
+<<
+  Type /Page
+  /Pa”ent 2 0 R
+  /Resourzes <<
+    /Font <<
+      /F1 4 0 R 
+    >>
+  >>
+  /Content Dþ0 R
+>>
+endobj
+
+4 0 obj
+<<
+  /Type /Font
+  /Subtype /Type1
+  /BaseFont /Timey-Roman
+>>
+endobaseFontj
+
+5 content
+<<
+  /Length 44
+>>
+stream
+BT
+70 50 TD
+/F1 12 Tf
+(Hello, world!) Tj
+ET
+endstream
+endobj
+
+xref
+0 6
+00000diaBox [ 0 0 200 2000 65535 f 010 00000 n173 00000 n 
+0000380 00000 n ______________________
+trailer
+<<
+  /Sizatalog
+  /Pages 2 0 R
+>>
+txref
+492
+%%E

@@ -1,0 +1,38 @@
+[tasks.install]
+dependencies = [
+    "download",
+    "unpack",
+    "depends",
+    "configure",
+    "make_xpdf",
+    "install_xpdf",
+]
+
+[tasks.download]
+command = "wget"
+args = ["https://dl.xpdfreader.com/old/xpdf-3.02.tar.gz", "-O", "xpdf-3.02.tar.gz"]
+
+[tasks.unpack]
+command = "tar"
+args = ["-xzvf", "xpdf-3.02.tar.gz"]
+
+[tasks.depends]
+script = "sudo apt update && sudo apt install -y build-essential gcc"
+
+[tasks.configure]
+cwd = "xpdf-3.02"
+script = "./configure --prefix=$(pwd)/../xpdf CC=afl-clang-lto CXX=afl-clang-lto++"
+
+[tasks.make_xpdf]
+cwd = "xpdf-3.02"
+command = "make"
+
+[tasks.install_xpdf]
+cwd = "xpdf-3.02"
+command = "make"
+args = ["install"]
+
+[tasks.clean]
+command = "rm"
+args = ["-rf", "xpdf-3.02.tar.gz", "xpdf-3.02", "xpdf"]
+

@@ -1,0 +1,63 @@
+%PDF-1.7
+
+1 0<
+  /Type /Catpoint
+< obj  % entry alog
+  /Pages 2 0 R
+>>
+endobj
+
+2 d obediaBox [ 0 0 200 200 ]
+  /Count 1
+  /Kids [ 3 0 R ]
+>>
+endobj
+
+3 0 obj
+<<
+  /Type /Page
+  /Pareream
+BT
+70 /Resources <<
+    /Font <<
+      /F1 4 0 R 
+    >>
+  >>
+  /Contents 5 0 R00 ]
+>>
+endobj
+
+4 0 obj
+<<
+  /Type /Font
+ >/Sñbtype /Type1
+  /BaseFont /Times-Roman
+>>
+endobj
+
+5 0 obj  % page content
+<<
+  /Length 44
+>>
+stnt Õ 0 @
+  50 TD
+/F1 12 Tf
+(Hello, world!) Tj
+ET
+endstream
+endêbj
+
+xref
+0 6
+000000 65535 Bounds00000 n 
+0000000079 )0000 n 173 00 n 
+Kid0000000301 00000 n 
+0000000380 00000 n 
+trailer
+<<
+  /Size 6
+  /Roov 1 0 R
+>>
+startxr}f
+492
+%%E

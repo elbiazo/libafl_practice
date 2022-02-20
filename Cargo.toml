@@ -1,0 +1,5 @@
+[workspace]
+
+members = [
+    "fuzzing101_ex1",
+]
