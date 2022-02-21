@@ -73,7 +73,7 @@ fn main() {
 
     let objective = feedback_and_fast!(
         // Must be a crash
-        TimeoutFeedback::new(),
+        CrashFeedback::new(),
         // Take it only if trigger new coverage over crashes
         MaxMapFeedback::new(&crash_edges_state, &edges_observer)
     );
@@ -85,6 +85,7 @@ fn main() {
     let mut state = StdState::new(
         StdRand::with_seed(current_nanos()),
         InMemoryCorpus::<BytesInput>::new(),
+        // OnDiskCorpus::<BytesInput>::new(PathBuf::from("./input")).unwrap(),
         OnDiskCorpus::new(crashes).expect("Failed to create on disk corpus"),
         tuple_list!(feedback_state, crash_edges_state),
     );
@@ -107,7 +108,7 @@ fn main() {
         .debug_child(false)
         .shmem_provider(&mut shmem_provider)
         .autotokens(&mut tokens)
-        .parse_afl_cmdline(&[String::from("@@")])
+        .parse_afl_cmdline(["@@".to_string()])
         .build(tuple_list!(edges_observer,time_observer))
         .unwrap();
 
@@ -115,7 +116,7 @@ fn main() {
         forkserver,
         Duration::from_millis(
             // 1 second
-            1000,
+            5000,
         ),
     )
     .expect("Failed to create the executor");
@@ -138,3 +139,5 @@ fn main() {
         .fuzz_loop(&mut stages, &mut executor, &mut state, &mut mgr)
         .expect("Error in the fuzzing loop");
 }
+
+
