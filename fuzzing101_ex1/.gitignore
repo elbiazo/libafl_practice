@@ -1,5 +1,6 @@
-.cur_input
+.cur_input*
 xpdf/
 xpdf-3.02/
 corpus/
 crashes/
+xpdf-3.02.tar.gz

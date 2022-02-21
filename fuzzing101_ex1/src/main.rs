@@ -106,7 +106,6 @@ fn main() {
     let forkserver = ForkserverExecutor::builder()
         .program("./xpdf/bin/pdftotext".to_string())
         .debug_child(false)
-        .shmem_provider(&mut shmem_provider)
         .autotokens(&mut tokens)
         .parse_afl_cmdline(["@@".to_string()])
         .build(tuple_list!(edges_observer,time_observer))
