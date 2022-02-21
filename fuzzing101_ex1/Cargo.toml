@@ -16,4 +16,3 @@ opt-level = 3
 [dependencies]
 libafl = { path = "../../../tools/LibAFL/libafl"}
 #libafl = "0.7.1"
-clap = "3.1.0"

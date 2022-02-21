@@ -1,4 +1,3 @@
-use clap::{Arg, Command};
 use libafl::bolts::rands::StdRand;
 use libafl::bolts::shmem::{ShMem, ShMemProvider, StdShMemProvider};
 use libafl::bolts::tuples::{tuple_list, Merge};
@@ -9,7 +8,7 @@ use libafl::corpus::{
 };
 use libafl::events::SimpleEventManager;
 use libafl::executors::{ForkserverExecutor, TimeoutForkserverExecutor};
-use libafl::feedbacks::{AflMapFeedback, CrashFeedback, MapFeedbackState, MaxMapFeedback, TimeFeedback};
+use libafl::feedbacks::{AflMapFeedback, CrashFeedback, MapFeedbackState, MaxMapFeedback, TimeFeedback, TimeoutFeedback};
 use libafl::inputs::BytesInput;
 use libafl::monitors::SimpleMonitor;
 use libafl::mutators::{havoc_mutations, tokens_mutations, StdScheduledMutator, Tokens};
@@ -21,33 +20,10 @@ use std::path::PathBuf;
 use std::time::Duration;
 
 fn main() {
-    let m = Command::new("Fuzzing XPDF")
-        .arg(
-            Arg::new("corpus")
-                .short('i')
-                .takes_value(true)
-                .required(true),
-        )
-        .arg(
-            Arg::new("output")
-                .short('o')
-                .takes_value(true)
-                .required(true),
-        )
-        .arg(Arg::new("executable").required(true).takes_value(true))
-        .arg(
-            Arg::new("arguments")
-                .takes_value(true)
-                .multiple_values(true)
-                .required(true),
-        )
-        .get_matches();
-
-    let corpus = PathBuf::from(m.value_of("corpus").expect("Failed to get corpus"));
-    let output = PathBuf::from(m.value_of("output").expect("Failed to get output"));
+    let crashes = PathBuf::from("./crashes");
 
     // Corpus directory
-    let corpus_dirs = vec![PathBuf::from(corpus)];
+    let corpus_dirs = vec![PathBuf::from("./corpus")];
 
     // Creating Shared memory with AFL_SHM_ID
     const MAP_SIZE: usize = 65336;
@@ -79,7 +55,7 @@ fn main() {
     //
 
     // Contains information about current untouched entries
-    let edges_state = MapFeedbackState::with_observer(&edges_observer);
+    let feedback_state = MapFeedbackState::with_observer(&edges_observer);
 
     // Contains information about overall untouched entries
     let crash_edges_state = MapFeedbackState::new("crash_edges", MAP_SIZE);
@@ -90,14 +66,14 @@ fn main() {
     // creates feedback for time and tracking hit count post processing
     let feedback = feedback_or!(
         // Todo: Wtf is novelties. and what is it to track indexes
-        MaxMapFeedback::new_tracking(&edges_state, &edges_observer, true, false),
+        MaxMapFeedback::new_tracking(&feedback_state, &edges_observer, true, false),
         // Get Time feedback
         TimeFeedback::new_with_observer(&time_observer)
     );
 
     let objective = feedback_and_fast!(
         // Must be a crash
-        CrashFeedback::new(),
+        TimeoutFeedback::new(),
         // Take it only if trigger new coverage over crashes
         MaxMapFeedback::new(&crash_edges_state, &edges_observer)
     );
@@ -109,8 +85,8 @@ fn main() {
     let mut state = StdState::new(
         StdRand::with_seed(current_nanos()),
         InMemoryCorpus::<BytesInput>::new(),
-        OnDiskCorpus::new(output).expect("Failed to create on disk corpus"),
-        tuple_list!(edges_state, crash_edges_state),
+        OnDiskCorpus::new(crashes).expect("Failed to create on disk corpus"),
+        tuple_list!(feedback_state, crash_edges_state),
     );
 
     // Create monitor to report fuzzer stat
@@ -122,24 +98,16 @@ fn main() {
 
     let mut fuzzer = StdFuzzer::new(scheduler, feedback, objective);
 
-    // Create the executor for the forkserver
-    let args = match m.values_of("arguments") {
-        Some(vec) => vec.map(|s| s.to_string()).collect::<Vec<String>>().to_vec(),
-        None => [].to_vec(),
-    };
+
 
     // Todo: wtf is tokens
     let mut tokens = Tokens::new();
     let forkserver = ForkserverExecutor::builder()
-        .program(
-            m.value_of("executable")
-                .expect("Couldn't get exe name")
-                .to_string(),
-        )
+        .program("./xpdf/bin/pdftotext".to_string())
         .debug_child(false)
         .shmem_provider(&mut shmem_provider)
         .autotokens(&mut tokens)
-        .parse_afl_cmdline(args)
+        .parse_afl_cmdline(&[String::from("@@")])
         .build(tuple_list!(edges_observer,time_observer))
         .unwrap();
 
@@ -156,12 +124,7 @@ fn main() {
     if state.corpus().count() < 1 {
         state
             .load_initial_inputs(&mut fuzzer, &mut executor, &mut mgr, &corpus_dirs)
-            .unwrap_or_else(|err| {
-                panic!(
-                    "Failed to load initial corpus at {:?}: {:?}",
-                    &corpus_dirs, err
-                )
-            });
+            .expect("Failed to load initial inputs");
         println!("We imported {} inputs from disk.", state.corpus().count());
     }
 
