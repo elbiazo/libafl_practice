@@ -8,3 +8,6 @@
 
 ## Installing xpdf
 Type `cargo make install`
+
+## Running
+Type `cargo run --release`
