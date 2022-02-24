@@ -1,0 +1,43 @@
+[tasks.install]
+dependencies = [
+    "download",
+    "extract",
+    "autoreconf",
+    "configure",
+    "make_install"
+]
+
+
+# Tasks for getting libexif
+[tasks.install_dep]
+script = "sudo apt-get install autopoint libtool gettext libpopt-dev"
+
+[tasks.download]
+command = "wget"
+args = ["https://github.com/libexif/libexif/archive/refs/tags/libexif-0_6_14-release.tar.gz"]
+
+[tasks.extract]
+command = "tar"
+args = ["-xzf", "libexif-0_6_14-release.tar.gz"]
+
+[tasks.autoreconf]
+command = "autoreconf"
+args = ["-fvi"]
+
+[tasks.configure]
+cwd = "libexif-libexif-0_6_14-release"
+script = "./configure --prefix=$(pwd)/../libexif CC=afl-clang-lto CXX=afl-clang-lto++"
+
+[tasks.make_install]
+cwd = "libexif-libexif-0_6_14-release"
+script = "make && make install"
+
+# Tasks for getting exif
+[tasks.download_exif]
+command = "wget"
+args = ["https://github.com/libexif/exif/archive/refs/tags/exif-0_6_15-release.tar.gz"]
+
+[tasks.extract_exif]
+command = "tar"
+args = ["-xzf", "exif-0_6_15-release.tar.gz"]
+
