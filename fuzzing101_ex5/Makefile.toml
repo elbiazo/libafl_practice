@@ -1,0 +1,33 @@
+[tasks.download_lib]
+command = "wget"
+args = ["http://xmlsoft.org/download/libxml2-2.9.4.tar.gz"]
+
+[tasks.extract_lib]
+command = "tar"
+args = ["-xzf", "libxml2-2.9.4.tar.gz"]
+
+[tasks.config_lib]
+cwd = "./libxml2-2.9.4"
+script = "sudo apt install python-dev && CC=afl-clang-lto CXX=afl-clang-lto++ CFLAGS=\"-fsanitize=address\" CXXFLAGS=\"-fsanitize=address\" LDFLAGS=\"-fsanitize=address\" ./configure --prefix=\"$(pwd)/../libxml\" --disable-shared --without-debug --without-ftp --without-http --without-legacy --without-python LIBS='-ldl'"
+
+[tasks.install_lib]
+cwd = "./libxml2-2.9.4"
+script = "make -j$(nproc) && make install"
+
+
+[tasks.mk_dir]
+command = "mkdir"
+args = ["-p", "corpus", "dict"]
+
+[tasks.download_corpus]
+cwd = "./corpus"
+command = "wget"
+args = ["https://raw.githubusercontent.com/antonio-morales/Fuzzing101/main/Exercise%205/SampleInput.xml"]
+dependencies = ["mk_dir"]
+
+
+[tasks.download_dict]
+cwd = "./dict"
+command = "wget"
+args = ["https://raw.githubusercontent.com/AFLplusplus/AFLplusplus/stable/dictionaries/xml.dict"]
+dependencies = ["mk_dir"]

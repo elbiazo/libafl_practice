@@ -3,4 +3,5 @@
 members = [
     "fuzzing101_ex1",
     "fuzzing101_ex2",
+    "fuzzing101_ex5",
 ]
